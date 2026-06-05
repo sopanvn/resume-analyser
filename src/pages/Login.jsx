@@ -1,6 +1,35 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { loginUser } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await loginUser({
+          email,
+          password,
+        });
+
+        localStorage.setItem("token", res.data.token);
+
+        console.log("Login Success:", res.data);
+
+        // 🔥 ADD THIS LINE
+        navigate("/dashboard");
+
+    } catch (err) {
+      console.log(err.response?.data?.message);
+    }
+  };
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
 
@@ -32,6 +61,7 @@ function Login() {
 
           <form className="space-y-5">
 
+            {/* EMAIL */}
             <div>
               <label className="text-sm font-medium">
                 Email
@@ -39,11 +69,14 @@ function Login() {
 
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
               />
             </div>
 
+            {/* PASSWORD */}
             <div>
               <label className="text-sm font-medium">
                 Password
@@ -51,12 +84,18 @@ function Login() {
 
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
                 className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
               />
             </div>
 
-            <button className="w-full bg-black text-white py-4 rounded-xl hover:opacity-90 transition">
+            {/* BUTTON */}
+            <button
+              onClick={handleLogin}
+              className="w-full bg-black text-white py-4 rounded-xl hover:opacity-90 transition"
+            >
               Login
             </button>
 

@@ -1,6 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../api/auth";
 
 function Register() {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await registerUser({
+        name,
+        email,
+        password,
+      });
+
+      console.log("Register Success:", res.data);
+
+      // redirect to login
+      navigate("/");
+    } catch (err) {
+      console.log(err.response?.data?.message);
+    }
+  };
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
 
@@ -32,45 +59,42 @@ function Register() {
             </p>
           </div>
 
-          <form className="space-y-5">
+          <form onSubmit={handleRegister} className="space-y-5">
 
             <div>
-              <label className="text-sm font-medium">
-                Full Name
-              </label>
-
+              <label className="text-sm font-medium">Full Name</label>
               <input
                 type="text"
-                placeholder="Enter your name"
-                className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full mt-2 p-4 border border-gray-300 rounded-xl"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">
-                Email
-              </label>
-
+              <label className="text-sm font-medium">Email</label>
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full mt-2 p-4 border border-gray-300 rounded-xl"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">
-                Password
-              </label>
-
+              <label className="text-sm font-medium">Password</label>
               <input
                 type="password"
-                placeholder="Create password"
-                className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full mt-2 p-4 border border-gray-300 rounded-xl"
               />
             </div>
 
-            <button className="w-full bg-black text-white py-4 rounded-xl hover:opacity-90 transition">
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-4 rounded-xl hover:opacity-90 transition"
+            >
               Register
             </button>
 
@@ -78,11 +102,7 @@ function Register() {
 
           <p className="text-center text-sm text-gray-500 mt-8">
             Already have an account?
-
-            <Link
-              to="/"
-              className="text-black font-semibold ml-1"
-            >
+            <Link to="/" className="text-black font-semibold ml-1">
               Login
             </Link>
           </p>
