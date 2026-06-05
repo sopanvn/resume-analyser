@@ -39,15 +39,7 @@ function Dashboard()
 
       {/* Upload Section */}
       <div className="bg-white rounded-3xl shadow-md p-8 mb-8">
-        <h2 className="text-2xl font-semibold mb-3">
-          Upload Resume
-        </h2>
-
-        <p className="text-gray-500 mb-6">
-          Upload your resume to get ATS score and AI-powered recommendations.
-        </p>
-
-        <ResumeUpload />
+         <ResumeUpload />
       </div>
 
       {/* Stats */}
