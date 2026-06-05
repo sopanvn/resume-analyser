@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 
-function ResumeUpload()
-{
+function ResumeUpload() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
+
+  // ✅ Render backend URL from .env
+  const API = import.meta.env.VITE_API_URL;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -23,39 +25,39 @@ function ResumeUpload()
   };
 
   const handleAnalyze = async () => {
-      if (!file) {
-        alert("Please select a file");
-        return;
-      }
+    if (!file) {
+      alert("Please select a file");
+      return;
+    }
 
-      const formData = new FormData();
-      formData.append("resume", file);
+    const formData = new FormData();
+    formData.append("resume", file);
 
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        const res = await axios.post(
-          "http://localhost:5000/api/resume/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const res = await axios.post(
+        `${API}/api/resume/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        setResult(res.data);
-        console.log("Analysis Done:", res.data);
+      setResult(res.data);
+      console.log("Analysis Done:", res.data);
 
-      } catch (err) {
-        console.log(err.response?.data?.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    } catch (err) {
+      console.log(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-3xl shadow-md p-8">
@@ -85,17 +87,13 @@ function ResumeUpload()
             <p className="text-lg font-medium">
               Click to Upload Resume
             </p>
-
             <p className="text-sm text-gray-500 mt-2">
               PDF only
             </p>
           </>
         ) : (
           <>
-            <p className="font-semibold">
-              {file.name}
-            </p>
-
+            <p className="font-semibold">{file.name}</p>
             <p className="text-gray-500 text-sm mt-2">
               {(file.size / 1024).toFixed(2)} KB
             </p>
@@ -104,10 +102,15 @@ function ResumeUpload()
       </div>
 
       {file && (
-        <button onClick={handleAnalyze} disabled={loading} className="bg-black text-white px-6 py-3 rounded-xl mt-4">
+        <button
+          onClick={handleAnalyze}
+          disabled={loading}
+          className="bg-black text-white px-6 py-3 rounded-xl mt-4"
+        >
           {loading ? "Analyzing..." : "Analyze Resume"}
         </button>
       )}
+
       {result && (
         <div className="mt-4 text-green-600">
           {result.message}
