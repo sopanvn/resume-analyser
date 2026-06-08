@@ -5,22 +5,10 @@ function Dashboard()
   const recentResumes = [
     {
       id: 1,
-      name: "Frontend_Resume.pdf",
-      score: 84,
-      date: "05 Jun 2026",
-    },
-    {
-      id: 2,
-      name: "React_Developer.pdf",
-      score: 89,
-      date: "03 Jun 2026",
-    },
-    {
-      id: 3,
-      name: "FullStack_Resume.pdf",
-      score: 78,
-      date: "01 Jun 2026",
-    },
+      name: "",
+      score: '',
+      date: "",
+    }
   ];
 
   return (
