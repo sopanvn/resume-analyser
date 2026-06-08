@@ -19,7 +19,7 @@ function Header() {
       {/* MIDDLE NAV */}
       <nav className="flex gap-4 items-center">
         <Link to="/dashboard">Dashboard</Link>
-        <Link to="/history">History</Link>
+        {/* <Link to="/history">History</Link> */}
 
         {/* LOGOUT BUTTON */}
         <button
