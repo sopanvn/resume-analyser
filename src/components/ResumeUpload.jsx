@@ -5,15 +5,14 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL;
-
 function ResumeUpload() {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
 
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
+
+  const API = import.meta.env.VITE_API_URL;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -99,7 +98,6 @@ function ResumeUpload() {
             <p className="text-lg font-medium">
               Click to Upload Resume
             </p>
-
             <p className="text-sm text-gray-500 mt-2">
               PDF only
             </p>
