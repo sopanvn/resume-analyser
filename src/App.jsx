@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Report from "./pages/Report";
+
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/report" element={<Report />} />
 
     </Routes>
   );

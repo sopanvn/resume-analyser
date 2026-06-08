@@ -1,10 +1,16 @@
+console.log("ENV:", import.meta.env);
+console.log("API:", import.meta.env.VITE_API_URL);
+
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function ResumeUpload()
-{
+const API = import.meta.env.VITE_API_URL;
+
+function ResumeUpload() {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
 
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
@@ -23,53 +29,61 @@ function ResumeUpload()
   };
 
   const handleAnalyze = async () => {
-      if (!file) {
-        alert("Please select a file");
-        return;
-      }
+    if (!file) {
+      alert("Please select a PDF file");
+      return;
+    }
 
-      const formData = new FormData();
-      formData.append("resume", file);
+    const formData = new FormData();
+    formData.append("resume", file);
 
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        const res = await axios.post(
-          "http://localhost:5000/api/resume/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const res = await axios.post(
+        `${API}/api/resume/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        setResult(res.data);
-        console.log("Analysis Done:", res.data);
+      console.log("Analysis Result:", res.data);
 
-      } catch (err) {
-        console.log(err.response?.data?.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      navigate("/report", {
+        state: {
+          report: res.data,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+
+      alert(
+        err.response?.data?.message ||
+        "Failed to analyze resume"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-3xl shadow-md p-8">
-
       <h2 className="text-2xl font-semibold mb-2">
         Upload Resume
       </h2>
 
       <p className="text-gray-500 mb-6">
-        Upload your PDF resume for analysis.
+        Upload your PDF resume for ATS analysis.
       </p>
 
       <div
-        className="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer"
+        className="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-black transition"
         onClick={() => fileInputRef.current.click()}
       >
         <input
@@ -92,7 +106,7 @@ function ResumeUpload()
           </>
         ) : (
           <>
-            <p className="font-semibold">
+            <p className="font-semibold text-lg">
               {file.name}
             </p>
 
@@ -104,14 +118,13 @@ function ResumeUpload()
       </div>
 
       {file && (
-        <button onClick={handleAnalyze} disabled={loading} className="bg-black text-white px-6 py-3 rounded-xl mt-4">
-          {loading ? "Analyzing..." : "Analyze Resume"}
+        <button
+          onClick={handleAnalyze}
+          disabled={loading}
+          className="mt-6 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 disabled:opacity-50"
+        >
+          {loading ? "Analyzing Resume..." : "Analyze Resume"}
         </button>
-      )}
-      {result && (
-        <div className="mt-4 text-green-600">
-          {result.message}
-        </div>
       )}
     </div>
   );
