@@ -119,7 +119,7 @@ function ResumeUpload() {
         <button
           onClick={handleAnalyze}
           disabled={loading}
-          className="mt-6 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 disabled:opacity-50" ml-400
+          className="mt-6 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 disabled:opacity-50 ml-[40rem]" 
         >
           {loading ? "Analyzing Resume..." : "Analyze Resume"}
         </button>
