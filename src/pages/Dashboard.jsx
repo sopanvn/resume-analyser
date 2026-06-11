@@ -66,7 +66,7 @@ function Dashboard()
       </div>
 
       {/* Recent Analysis */}
-      <div className="bg-white rounded-3xl shadow-md p-8">
+      {/* <div className="bg-white rounded-3xl shadow-md p-8">
 
         <h2 className="text-2xl font-semibold mb-6">
           Recent Analyses
@@ -108,7 +108,7 @@ function Dashboard()
           </table>
 
         </div>
-      </div>
+      </div> */}
 
     </div>
   );
