@@ -31,7 +31,7 @@ function Dashboard()
       </div>
 
       {/* Stats */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      {/* <div className="grid md:grid-cols-3 gap-6 mb-8">
 
         <div className="bg-white rounded-3xl shadow-md p-6">
           <h3 className="text-gray-500">
@@ -63,7 +63,7 @@ function Dashboard()
           </p>
         </div>
 
-      </div>
+      </div> */}
 
       {/* Recent Analysis */}
       {/* <div className="bg-white rounded-3xl shadow-md p-8">
