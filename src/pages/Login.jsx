@@ -51,7 +51,7 @@ function Login() {
 
       {/* RIGHT SIDE */}
       <div className="flex items-center justify-center bg-gray-100 p-6">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8">
+        <div className="w-full max-w-md bg-blue rounded-3xl shadow-xl p-8">
 
           <h2 className="text-4xl font-bold mb-2 text-gray-900">
             Welcome Back 👋
