@@ -6,29 +6,31 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
 
-    try {
-      const res = await loginUser({
+      setError("");
+
+      try {
+        const res = await loginUser({
           email,
           password,
         });
 
         localStorage.setItem("token", res.data.token);
 
-        console.log("Login Success:", res.data);
-
-        // 🔥 ADD THIS LINE
         navigate("/dashboard");
 
-    } catch (err) {
-      console.log(err.response?.data?.message);
-    }
-  };
+      } catch (err) {
+        setError(
+          err.response?.data?.message || "Invalid email or password"
+        );
+      }
+    };
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
@@ -90,6 +92,12 @@ function Login() {
                 className="w-full mt-2 p-4 border border-gray-300 rounded-xl outline-none focus:border-black"
               />
             </div>
+
+            {error && (
+              <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-xl text-sm">
+                {error}
+              </div>
+            )}
 
             {/* BUTTON */}
             <button
