@@ -8,6 +8,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Report from "./pages/Report";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 
@@ -45,6 +46,8 @@ function App() {
       />
 
       <Route path="/report" element={<Report />} />
+
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
     </Routes>
   );
