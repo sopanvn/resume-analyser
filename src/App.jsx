@@ -48,9 +48,9 @@ function App() {
 
       <Route path="/report" element={<Report />} />
 
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
     </Routes>
+
+    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
   );
 }
 
